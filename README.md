@@ -5,14 +5,14 @@ FocusPlan is a web application that combines a task manager with Pomodoro timer.
 PHP · XML · XSD · JSON Schema · JavaScript · jQuery · AJAX · WebSocket · HTML · CSS
 
 # Project Structure
-index.html — main page
-style.css — styles
-app.js — client-side logic (AJAX + WebSocket)
-tasks.php — REST API for task management
-websocket.php — WebSocket server for the Pomodoro timer
-tasks.xml — data store
-tasks.xsd — XML Schema
-tasks.schema.json — JSON Schema
+- index.html — main page
+- style.css — styles
+- app.js — client-side logic (AJAX + WebSocket)
+- tasks.php — REST API for task management
+- websocket.php — WebSocket server for the Pomodoro timer
+- tasks.xml — data store
+- tasks.xsd — XML Schema
+- tasks.schema.json — JSON Schema
 
 # How tu Run
 1. Place the files in C:\xampp\htdocs\focusplan\
