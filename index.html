@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusPlan</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Main header — shows the app title, current date and pending task count -->
+    <header id="app-header">
+        <div id="header-left">
+            <h1>FocusPlan</h1>
+            <p>Your personal study planner</p>
+        </div>
+        <div id="header-right">
+            <span id="current-date"></span>
+            <span id="pending-count"></span>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- Stats bar — three cards updated dynamically -->
+        <section id="stats-bar">
+            <div class="stat-card">
+                <span class="stat-num" id="stat-total">0</span>
+                <span class="stat-label">Total tasks</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-num" id="stat-done">0</span>
+                <span class="stat-label">Completed</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-num" id="stat-minutes">0 min</span>
+                <span class="stat-label">Planned</span>
+            </div>
+        </section>
+
+        <!-- Main panel — form on the left, task list on the right -->
+        <section id="main-panel">
+
+            <!-- Add task form — sends a POST request to tasks.php via AJAX -->
+            <div id="form-card">
+                <h2>Add task</h2>
+                <form id="task-form">
+                    <input type="text" id="task-name"
+                           placeholder="Task name" required>
+                    <input type="text" id="task-subject"
+                           placeholder="Subject" required>
+                    <input type="number" id="task-minutes"
+                           placeholder="Estimated minutes" min="1" required>
+                    <button type="submit">+ Add task</button>
+                </form>
+            </div>
+
+            <!-- Task list — rendered dynamically, filtered by the buttons below -->
+            <div id="tasks-card">
+                <h2>My tasks</h2>
+
+                <!-- Filter buttons — toggle which tasks are shown -->
+                <div id="filters">
+                    <button class="filter-btn active" data-filter="all">
+                        All
+                    </button>
+                    <button class="filter-btn" data-filter="pending">
+                        Pending
+                    </button>
+                    <button class="filter-btn" data-filter="done">
+                        Completed
+                    </button>
+                </div>
+
+                <!-- Tasks are injected here by renderTasks() in app.js -->
+                <ul id="tasks-list"></ul>
+
+                <!-- Shown when there are no tasks to display -->
+                <div id="empty-state">
+                    <p>No tasks yet.</p>
+                    <p>Add your first task!</p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Pomodoro timer — communicates with websocket.php via WebSocket -->
+        <section id="pomodoro-card">
+            <h2>Pomodoro Timer</h2>
+
+            <div id="pomodoro-inner">
+
+                <!-- Timer circle — changes color depending on work/break mode -->
+                <div id="timer-circle">
+                    <span id="timer-display">25:00</span>
+                </div>
+
+                <!-- Timer controls — start/pause, reset and session config -->
+                <div id="timer-controls">
+                    <p id="timer-status">Work session</p>
+
+                    <!-- Configurable work and break durations -->
+                    <div id="timer-config">
+                        <label>
+                            Work:
+                            <input type="number" id="work-minutes"
+                                   value="25" min="1" max="60"> min
+                        </label>
+                        <label>
+                            Break:
+                            <input type="number" id="break-minutes"
+                                   value="5" min="1" max="30"> min
+                        </label>
+                    </div>
+
+                    <!-- Start/pause and reset buttons -->
+                    <div id="timer-buttons">
+                        <button id="btn-start">Start</button>
+                        <button id="btn-reset">Reset</button>
+                    </div>
+
+                    <!-- Tracks total time worked and rested in this session -->
+                    <div id="session-stats">
+                        <span>Worked: <strong id="total-work">0 min</strong></span>
+                        <span>Rested: <strong id="total-break">0 min</strong></span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- jQuery loaded from CDN before our own script -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Main application logic -->
+    <script src="app.js"></script>
+
+</body>
+</html>
