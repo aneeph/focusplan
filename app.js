@@ -9,6 +9,7 @@ $(document).ready(function () {
     let secondsLeft    = 0;     // seconds remaining in the current session
     let totalWorkSecs  = 0;     // total seconds worked this session
     let totalBreakSecs = 0;     // total seconds rested this session
+    let hasStarted = false;     // To know if the timer is new or a resume
 
     // ── INIT ──────────────────────────────────────────────────────────
     // These three run immediately when the page loads.
@@ -333,11 +334,16 @@ $(document).ready(function () {
             $('#timer-circle').addClass('running');
             $('#notif').addClass('hidden');
             if (ws && ws.readyState === WebSocket.OPEN) {
-                ws.send(JSON.stringify({
-                    action:   'start',
-                    workMin:  getWorkMin(),
-                    breakMin: getBreakMin()
-                }));
+                if (!hasStarted) {
+                    hasStarted = true;
+                    ws.send(JSON.stringify({
+                        action:   'start',
+                        workMin:  getWorkMin(),
+                        breakMin: getBreakMin()
+                    }));
+                } else {
+                    ws.send(JSON.stringify({ action: 'resume' }));
+                }
             } else {
                 useLocalTimer();
             }
@@ -346,6 +352,7 @@ $(document).ready(function () {
 
     // Reset button — clears everything and goes back to the initial state.
     $('#btn-reset').on('click', function () {
+        hasStarted = false;
         isRunning   = false;
         isBreak     = false;
         clearInterval(timerInterval);
