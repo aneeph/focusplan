@@ -112,6 +112,10 @@ while (true) {
                 'seconds' => $client['seconds'],
                 'isBreak' => false
             ]);
+        } elseif ($action === 'resume') {
+            $client['running']  = true;
+            $client['lastTick'] = time();
+            echo "Timer resumed for $id — seconds: {$client['seconds']}\n";
         }
     }
     unset($client);
@@ -130,11 +134,13 @@ while (true) {
                 // Work session ended — switch to break
                 $client['isBreak'] = true;
                 $client['seconds'] = $client['breakSecs'];
+                $client['running'] = false;
                 sendMsg($client['socket'], ['type' => 'finished', 'mode' => 'work']);
             } else {
                 // Break ended — switch back to work
                 $client['isBreak'] = false;
                 $client['seconds'] = $client['workSecs'];
+                $client['running'] = false;
                 sendMsg($client['socket'], ['type' => 'finished', 'mode' => 'break']);
             }
         } else {
