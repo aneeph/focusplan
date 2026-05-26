@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <!-- root element: <tasks> -->
+  <xs:element name="tasks">
+    <xs:complexType>
+      <xs:sequence>
+        <!-- There can be from 0 to infinity <task> inside <tasks> -->
+        <xs:element name="task" minOccurs="0" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="id" type="xs:integer"/>
+              <xs:element name="name" type="xs:string"/>
+              <xs:element name="subject" type="xs:string"/>
+              <xs:element name="minutes" type="xs:positiveInteger"/>
+              <!-- <status> can only be "pending" or "done" -->
+              <xs:element name="status">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:enumeration value="pending"/>
+                    <xs:enumeration value="done"/>
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
